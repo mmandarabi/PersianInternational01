@@ -41,10 +41,14 @@ export function Header() {
                     <button
                         type="button"
                         className={cn("-m-2.5 inline-flex items-center justify-center rounded-md p-2.5", isHome ? "text-cream" : "text-gray-700")}
-                        onClick={() => setMobileMenuOpen(true)}
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                     >
-                        <span className="sr-only">Open main menu</span>
-                        <Menu className="h-6 w-6" aria-hidden="true" />
+                        <span className="sr-only">Toggle main menu</span>
+                        {mobileMenuOpen ? (
+                            <X className="h-6 w-6" aria-hidden="true" />
+                        ) : (
+                            <Menu className="h-6 w-6" aria-hidden="true" />
+                        )}
                     </button>
                 </div>
                 <div className="hidden lg:flex lg:gap-x-12">
@@ -80,36 +84,22 @@ export function Header() {
                 </div>
             </nav>
 
-            {/* Mobile menu */}
-            <div className={cn("lg:hidden fixed inset-0 z-50 bg-cream px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 transform transition-transform duration-300 ease-in-out", mobileMenuOpen ? "translate-x-0" : "translate-x-full right-0 left-auto h-full w-full bg-cream")}>
-                <div className="flex items-center justify-between">
-                    <Link href="/" className="-m-1.5 p-1.5">
-                        <span className="font-serif text-lg font-bold tracking-tight text-emerald-900 border-2 border-emerald-900 px-2 py-0.5 uppercase">Persian & International Market</span>
-                    </Link>
-                    <button
-                        type="button"
-                        className="-m-2.5 rounded-md p-2.5 text-gray-700"
-                        onClick={() => setMobileMenuOpen(false)}
-                    >
-                        <span className="sr-only">Close menu</span>
-                        <X className="h-6 w-6" aria-hidden="true" />
-                    </button>
-                </div>
-                <div className="mt-6 flow-root">
-                    <div className="-my-6 divide-y divide-gray-500/10">
-                        <div className="space-y-2 py-6">
-                            {navigation.map((item) => (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    {item.name}
-                                </Link>
-                            ))}
-                        </div>
-                    </div>
+            {/* Mobile menu - Dropdown style */}
+            <div className={cn(
+                "lg:hidden absolute top-full left-0 w-full bg-cream border-t border-gray-100 shadow-xl transition-all duration-300 ease-in-out transform origin-top",
+                mobileMenuOpen ? "opacity-100 py-6 visible scale-y-100" : "opacity-0 py-0 invisible scale-y-0"
+            )}>
+                <div className="space-y-1 px-6 pb-2">
+                    {navigation.map((item) => (
+                        <Link
+                            key={item.name}
+                            href={item.href}
+                            className="block rounded-lg px-3 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 text-center uppercase tracking-wider"
+                            onClick={() => setMobileMenuOpen(false)}
+                        >
+                            {item.name}
+                        </Link>
+                    ))}
                 </div>
             </div>
         </header>
